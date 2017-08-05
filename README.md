@@ -14,7 +14,7 @@ Looking for a [Clementine.js](http://www.clementinejs.com/)-like, a boilerplate 
 * MVC structure
 * Security
   * Use [Helmet](https://expressjs.com/en/advanced/best-practice-security.html#use-helmet), it helps securing the app by setting various HTTP headers.
-  * Use [csurf](https://www.npmjs.com/package/csurf) for [CRSF](https://en.wikipedia.org/wiki/Cross-site_request_forgery) protection. [**Important: How to use it**]()
+  * Use [csurf](https://www.npmjs.com/package/csurf) for [CRSF](https://en.wikipedia.org/wiki/Cross-site_request_forgery) protection. [**Important: How to use it**](securing-forms-against-csrf)
 
 * User Schema (Authentication, CRUD API)
 

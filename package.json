@@ -1,9 +1,18 @@
 {
   "name": "mini-express-boilerplate",
-  "homepage":"",
-  "":"",
-  "":"",
-  "":"",
+  "repository" : {
+     "type" : "git",
+     "url" : "https://github.com/Fcmam5/mini-express-boilerplate.git"
+   },
+  "bugs": {
+    "url" : "https://github.com/Fcmam5/mini-express-boilerplate/issues",
+    "email" : "dr.fcmam5@gmail.com"
+    },
+  "author": {
+    "name" : "Fortas Mohammed Abdeldjalil Mokhtar",
+    "email" : "dr.fcmam5@gmail.com",
+    "url" : "https://github.com/Fcmam5"
+  },
   "version": "0.1.0",
   "scripts": {
     "start": "node ./bin/www"
