@@ -47,6 +47,15 @@ router.get('/auth/facebook/callback',
         failureRedirect : '/'
 }));
 
+// Facebook Authorize
+router.get('/connect/facebook', passport.authorize('facebook', { scope : 'email' }));
+
+router.get('/connect/facebook/callback',
+    passport.authorize('facebook', {
+        successRedirect : '/profile',
+        failureRedirect : '/'
+    }));
+
 /*
 * Twitter authentication
 * */
@@ -57,5 +66,48 @@ router.get('/auth/twitter/callback',
         successRedirect : '/users/profile',
         failureRedirect : '/'
 }));
+
+// Twitter Authorize
+router.get('/connect/twitter', passport.authorize('twitter', { scope : 'email' }));
+
+// handle the callback after twitter has authorized the user
+router.get('/connect/twitter/callback',
+    passport.authorize('twitter', {
+        successRedirect : '/profile',
+        failureRedirect : '/'
+}));
+
+/*
+* Unlinking accounts
+* */
+
+// Local
+router.get('/unlink/local', function(req, res) {
+		var user            = req.user;
+		user.local.email    = undefined;
+		user.local.password = undefined;
+		user.save(function(err) {
+			res.redirect('/users/profile');
+		});
+});
+
+// Facebook
+router.get('/unlink/facebook', function(req, res) {
+		var user            = req.user;
+		user.facebook.token = undefined;
+		user.save(function(err) {
+			res.redirect('/users/profile');
+		});
+});
+
+// Twitter
+router.get('/unlink/twitter', function(req, res) {
+		var user           = req.user;
+		user.twitter.token = undefined;
+		user.save(function(err) {
+			res.redirect('/users/profile');
+		});
+});
+
 
 module.exports = router;

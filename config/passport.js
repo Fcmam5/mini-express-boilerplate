@@ -78,25 +78,33 @@ module.exports = function(passport) {
         clientID        : configAuth.facebookAuth.clientID,
         clientSecret    : configAuth.facebookAuth.clientSecret,
         callbackURL     : configAuth.facebookAuth.callbackURL,
-        profileFields: ['id', 'displayName', 'picture', 'email', 'name']
-
+        profileFields: ['id', 'displayName', 'picture', 'email', 'name'],
+        passReqToCallback : true,
     },
-    function(token, refreshToken, profile, done) {
+    function(req, token, refreshToken, profile, done) {
         process.nextTick(function() {
-
+          if (!req.user) {
             // find the user in the database based on their facebook id
             User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
                 // if there is an error, stop everything and return that
                 if (err)
                     return done(err);
 
-                // if the user is found, then log them in
                 if (user) {
-                    return done(null, user); // user found, return that user
+                  if (!user.facebook.token) {
+                    user.facebook.token = token;
+                    user.facebook.email = profile.emails[0].value;
+                    user.profile.pictureUrl = user.profile.pictureUrl || profile.picture;
+                    user.save(function(err) {
+                      if (err)
+                          throw err;
+                      return done(null, user);
+                    });
+                  }
+                  return done(null, user); // user found, return that user
                 } else {
                     // if there is no user found with that facebook id, create them
                     var newUser            = new User();
-
                     newUser.facebook.id    = profile.id;
                     newUser.facebook.token = token;
                     newUser.facebook.email = profile.emails[0].value;
@@ -113,6 +121,20 @@ module.exports = function(passport) {
                 }
 
             });
+          } else {
+            var user = req.user;
+            user.facebook.id    = profile.id;
+            user.facebook.token = token;
+            user.facebook.email = profile.emails[0].value;
+            user.profile.pictureUrl = user.profile.pictureUrl || profile.picture;
+
+            // Update the profile
+            user.save(function(err) {
+                    if (err)
+                        throw err;
+                    return done(null, user);
+            });
+          }
         });
       }));
 
@@ -123,19 +145,29 @@ module.exports = function(passport) {
     passport.use(new TwitterStrategy({
       consumerKey     : configAuth.twitterAuth.consumerKey,
       consumerSecret  : configAuth.twitterAuth.consumerSecret,
-      callbackURL     : configAuth.twitterAuth.callbackURL
-
+      callbackURL     : configAuth.twitterAuth.callbackURL,
+      passReqToCallback : true,
   },
-  function(token, tokenSecret, profile, done) {
+  function(req, token, tokenSecret, profile, done) {
       process.nextTick(function() {
+        if (!req.user) {
           User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
               if (err)
                   return done(err);
+
               if (user) {
-                  return done(null, user);
+                if (!user.twitter.token) {
+                  user.twitter.token = token;
+                  user.twitter.username = profile.username;
+                  user.save(function(err) {
+                      if (err)
+                          throw err;
+                      return done(null, user);
+                  });
+              }
+              return done(null, user);
               } else {
                   var newUser                 = new User();
-
                   newUser.twitter.id          = profile.id;
                   newUser.twitter.token       = token;
                   newUser.twitter.username    = profile.username;
@@ -150,9 +182,19 @@ module.exports = function(passport) {
                   });
               }
           });
+        } else {
+          var user = req.user;
+          user.twitter.id          = profile.id;
+          user.twitter.token       = token;
+          user.twitter.username    = profile.username;
 
-  });
-
+          user.save(function(err) {
+              if (err)
+                  throw err;
+              return done(null, user);
+          });
+        }
+      });
   }));
 };
 

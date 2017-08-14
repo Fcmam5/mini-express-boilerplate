@@ -7,7 +7,6 @@ var UserModel = require('../models/UserModel.js');
  */
 module.exports = {
     showProfile: function (req, res) {
-      console.log(req.user);
         return res.render('user/profile', {title: "welcome", user : req.user});
     },
     /**
