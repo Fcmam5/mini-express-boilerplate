@@ -76,7 +76,6 @@ Feel free to `fork` this project and add whatever you like, if you have any sugg
 - [ ] Link password accounts
 - [ ] Work on front-end
 - [ ] Add awesome stuffs
-- [ ] Check if email is used when creating new account
 - [ ] When creating a new acocunt from Facebook or Twitter update his mail in profile (add to model)
 - [ ] Implement password recovery system
 

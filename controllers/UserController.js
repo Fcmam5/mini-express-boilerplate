@@ -109,5 +109,22 @@ module.exports = {
             }
             return res.status(204).json();
         });
+    },
+    /**
+    * Check if meail is already used
+    */
+    checkLocalMailController: function (req, res, next){
+      var email = req.body.email;
+      var user = {name: null, img: null};
+
+      UserModel.findOne({$or: [{'local.email': email}, {'facebook.email': email}, {'local.email': email}]}, function(err, User){
+        if (err) {
+          return res.status(500).json(user);
+        }
+
+        user = User ? {name: User.profile.name,img: User.profile.pictureUrl} : null;
+        return res.status(200).json(user);
+
+      });
     }
 };
