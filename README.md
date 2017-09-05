@@ -9,6 +9,8 @@ Looking for a [Clementine.js](http://www.clementinejs.com/)-like, a boilerplate 
   * Local (using email and password)
   * Facebook authentication
   * Twitter authentication
+* Stores sessions MongoDB
+* [CORS](https://enable-cors.org/server_expressjs.html) is engabled
 * Uses SASS stylesheets (autocompiled)
 * Uses EJS templating language
 * MVC structure

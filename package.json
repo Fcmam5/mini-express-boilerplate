@@ -1,17 +1,17 @@
 {
   "name": "mini-express-boilerplate",
-  "repository" : {
-     "type" : "git",
-     "url" : "https://github.com/Fcmam5/mini-express-boilerplate.git"
-   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Fcmam5/mini-express-boilerplate.git"
+  },
   "bugs": {
-    "url" : "https://github.com/Fcmam5/mini-express-boilerplate/issues",
-    "email" : "dr.fcmam5@gmail.com"
-    },
+    "url": "https://github.com/Fcmam5/mini-express-boilerplate/issues",
+    "email": "dr.fcmam5@gmail.com"
+  },
   "author": {
-    "name" : "Fortas Mohammed Abdeldjalil Mokhtar",
-    "email" : "dr.fcmam5@gmail.com",
-    "url" : "https://github.com/Fcmam5"
+    "name": "Fortas Mohammed Abdeldjalil Mokhtar",
+    "email": "dr.fcmam5@gmail.com",
+    "url": "https://github.com/Fcmam5"
   },
   "version": "0.1.0",
   "scripts": {
@@ -21,6 +21,7 @@
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "~1.15.2",
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^1.3.2",
     "cookie-parser": "~1.4.3",
     "csurf": "^1.9.0",
     "debug": "~2.2.0",

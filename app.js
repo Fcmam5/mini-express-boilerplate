@@ -22,25 +22,53 @@ var session = require('express-session');
 var flash = require('connect-flash')
 var mongoose = require('mongoose');
 var configDB = require('./config/database');
+var mongoStore = require('connect-mongo')(session);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // Database and passport setup
-mongoose.connect(configDB.url);
+mongoose.Promise = global.Promise; //For hiding the "deprecated" warning
+mongoose.connect(configDB.url,function(err, next) {
+  if (err) {
+    console.error("Faild to load DB");
+  } else {
+    console.log("Your awesome Database is connected on");
+    console.log(configDB.url);
+  }
+});
+
+// If the connection throws an error
+mongoose.connection.on('error',function (err) {
+  console.log('Mongoose connection Warning: error: ' + err);
+});
+
+// When the connection is disconnected
+mongoose.connection.on('disconnected', function () {
+  console.log('Mongoose connection Warning: disconnected');
+});
 
 app.use(session({
   secret: 'algeriannewbieStemplate',
   name: 'itismysessions',
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
+  store: new mongoStore({mongooseConnection: mongoose.connection})
 }));
 
+// Passport configuration
 require('./config/passport')(passport); // pass passport for configuration
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+
+// To enable CORS
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
