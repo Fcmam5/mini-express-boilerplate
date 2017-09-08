@@ -16,7 +16,7 @@ Looking for a [Clementine.js](http://www.clementinejs.com/)-like, a boilerplate 
 * MVC structure
 * Security
   * Use [Helmet](https://expressjs.com/en/advanced/best-practice-security.html#use-helmet), it helps securing the app by setting various HTTP headers.
-  * Use [csurf](https://www.npmjs.com/package/csurf) for [CRSF](https://en.wikipedia.org/wiki/Cross-site_request_forgery) protection. [**Important: How to use it**](securing-forms-against-csrf)
+  * Use [csurf](https://www.npmjs.com/package/csurf) for [CRSF](https://en.wikipedia.org/wiki/Cross-site_request_forgery) protection. [**Important: How to use it**](#securing-forms-against-csrf)
 
 * User Schema (Authentication, CRUD API)
 
@@ -52,22 +52,21 @@ The `.env` file must contain you Facebook and Twitter API keys you can get these
 * [Twitter](https://apps.twitter.com/app/new)
 
 #### Securing forms against CSRF
-You must add this tag to your `<form>` in
+You must add this tag to your `<form>`
 ```html
 <input type="hidden" name="_csrf" value="<%=csrftoken%>" />
 ```
 
 If you want to disable CSRF protection:
 * Comment these lines in `app.js`
-
-```javascript
-pp.use(csrf());
-app.use(function(req, res, next){
- res.locals.csrftoken = req.csrfToken();
- console.log(req.csrfToken());
- next();
-});
-```
+  ```javascript
+  app.use(csrf());
+  app.use(function(req, res, next){
+   res.locals.csrftoken = req.csrfToken();
+   console.log(req.csrfToken());
+   next();
+  });
+  ```
 
 * Remove tags using `csrftoken` variable ( `views/users/login.ejs` and `views/users/signup.ejs`  )
 ## Contributing
