@@ -19,6 +19,7 @@ Looking for a [Clementine.js](http://www.clementinejs.com/)-like, a boilerplate 
   * Use [csurf](https://www.npmjs.com/package/csurf) for [CRSF](https://en.wikipedia.org/wiki/Cross-site_request_forgery) protection. [**Important: How to use it**](#securing-forms-against-csrf)
 
 * User Schema (Authentication, CRUD API)
+* If the user is logged in `req.user` will be available via a global variable called `user` for usage in views. 
 
 ## Getting Started
 
