@@ -13,6 +13,7 @@
     "email": "dr.fcmam5@gmail.com",
     "url": "https://github.com/Fcmam5"
   },
+  "license": "MIT",
   "version": "0.1.0",
   "scripts": {
     "start": "node ./bin/www"
