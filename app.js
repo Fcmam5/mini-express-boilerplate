@@ -1,3 +1,6 @@
+// Load .env file
+require('dotenv').config();
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -14,9 +17,6 @@ var userAPI = require('./routes/UserAPI');
 
 var app = express();
 
-// Load .env file
-require('dotenv').config();
-
 var passport = require('passport');
 var session = require('express-session');
 var flash = require('connect-flash')
@@ -29,8 +29,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // Database and passport setup
-mongoose.Promise = global.Promise; //For hiding the "deprecated" warning
-mongoose.connect(configDB.url,function(err, next) {
+// mongoose.Promise = global.Promise; //For hiding the "deprecated" warning
+mongoose.connect(configDB.url, {useMongoClient: true},function(err, next) {
   if (err) {
     console.error("Faild to load DB");
   } else {
